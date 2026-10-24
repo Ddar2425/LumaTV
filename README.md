@@ -1,5 +1,7 @@
 # Luma TV 1.2.0
 
+**Updates:** open Updates in the top navigation, then Check for updates → Download → Restart & install. It is connected to [Ddar2425/LumaTV releases](https://github.com/Ddar2425/LumaTV/releases). Checks run on launch by default; downloads and installation wait for your choice. See [UPDATES.md](UPDATES.md) for release publishing and troubleshooting.
+
 Run **Luma-TV-Setup-1.2.0.exe** in the parent outputs folder. This Windows x64 installer requires no Node.js installation and adds desktop/Start menu shortcuts. Close the old app before updating. It is unsigned; Windows may show an unrecognized publisher message.
 
 ## Inside Luma

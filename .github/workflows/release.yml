@@ -1,0 +1,28 @@
+name: Build Luma TV release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: node node_modules/electron/install.js
+      - run: npm test
+      - run: npx electron-builder --win nsis --x64 --publish never -c.directories.output=dist
+      - name: Publish installer and update metadata
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          $tag = $env:GITHUB_REF_NAME
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          if ($tag -ne "v$version") { throw 'Tag and package version must match' }
+          gh release create $tag "dist/Luma-TV-Setup-$version.exe" "dist/Luma-TV-Setup-$version.exe.blockmap" "dist/latest.yml" --title "Luma TV $version" --notes "Luma TV $version for Windows. Update through the Updates menu in Luma."

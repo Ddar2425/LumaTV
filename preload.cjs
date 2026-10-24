@@ -1,0 +1,2 @@
+const {contextBridge,ipcRenderer}=require('electron');
+contextBridge.exposeInMainWorld('tv',{...Object.fromEntries(['state','setting','add-web','pick','remove','launch','window','startup','service','updates'].map(key=>[key,(...args)=>ipcRenderer.invoke(key,...args)])),onService:callback=>ipcRenderer.on('service-status',(_event,info)=>callback(info)),onUpdates:callback=>ipcRenderer.on('update-status',(_event,info)=>callback(info))});

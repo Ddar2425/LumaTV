@@ -1,0 +1,66 @@
+{
+  "name": "luma-tv",
+  "version": "1.2.0",
+  "private": true,
+  "description": "A Windows living-room launcher",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node tests.cjs && node tests-updates.cjs",
+    "dist": "electron-builder --win nsis --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "45.0.0",
+    "electron-builder": "26.18.0",
+    "playwright": "1.64.1"
+  },
+  "productName": "Luma TV",
+  "author": "Luma TV",
+  "build": {
+    "appId": "local.lumatv.launcher",
+    "productName": "Luma TV",
+    "asar": true,
+    "electronDist": "node_modules/electron/dist",
+    "directories": {
+      "output": "../../work/luma-build"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "renderer.js",
+      "index.html",
+      "style.css",
+      "background.css",
+      "package.json",
+      "media.html",
+      "media.js",
+      "assets/**/*",
+      "updates.cjs",
+      "update-source.json"
+    ],
+    "win": {
+      "signAndEditExecutable": false,
+      "artifactName": "Luma-TV-Setup-${version}.${ext}",
+      "target": "nsis"
+    },
+    "nsis": {
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Luma TV"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "repo": "LumaTV",
+        "releaseType": "release",
+        "owner": "Ddar2425"
+      }
+    ]
+  },
+  "dependencies": {
+    "electron-updater": "6.8.11"
+  }
+}

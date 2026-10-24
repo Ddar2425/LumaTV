@@ -25,4 +25,6 @@ jobs:
           $tag = $env:GITHUB_REF_NAME
           $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
           if ($tag -ne "v$version") { throw 'Tag and package version must match' }
+          gh release view $tag 2>$null
+          if ($LASTEXITCODE -eq 0) { Write-Host 'Release already published; preserving its original artifacts.'; exit 0 }
           gh release create $tag "dist/Luma-TV-Setup-$version.exe" "dist/Luma-TV-Setup-$version.exe.blockmap" "dist/latest.yml" --title "Luma TV $version" --notes "Luma TV $version for Windows. Update through the Updates menu in Luma."
